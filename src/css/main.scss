@@ -1,0 +1,60 @@
+/* Includes
+   ========================================================================== */
+
+@import 'normalize';
+@import 'skeleton';
+@import 'fonts';
+@import 'leaflet';
+@import 'project';
+
+/* Variables
+   ========================================================================== */
+
+$sidebar-width: 450px;
+
+/* Style
+   ========================================================================== */
+
+body {
+  font-family: "Open Sans";
+}
+
+h1, h2, h3 {
+  border-bottom-width: 3px;
+  border-bottom-color: black;
+  border-bottom-style: solid;
+}
+
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.padding {
+  padding: 7px;
+}
+
+.sidebar-container {
+  position: absolute;
+  left: 0;
+  width: $sidebar-width;
+  z-index: 1;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sidebar-container-padding {
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}
+
+.sidebar {
+  pointer-events: all;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0px 1px 5px rgba(50, 50, 50, 0.34)
+}
