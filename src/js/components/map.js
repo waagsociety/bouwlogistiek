@@ -29,6 +29,9 @@ module.exports = React.createClass({
       onEachFeature: function (feature, layer) {
         layer.on({
           click: function() {
+            // TODO: only if new project
+            this.routesLayer.clearLayers();
+
             this.props.setProject(feature, layer);
           }.bind(this)
         });
@@ -54,19 +57,31 @@ module.exports = React.createClass({
 
     var path = d3.selectAll('#map .leaflet-zoom-animated path[stroke="none"]');
 
+    var colors = {
+      sand: '#8dd3c7',
+      concrete: '#ffffb3',
+      a: '#bebada',
+      b: '#fb8072'
+    };
+
     path
-      .attr("stroke-dasharray", function(d) {
+      .attr("stroke-dasharray", function() {
         var totalLength = d3.select(this).node().getTotalLength();
         return totalLength + " " + totalLength;
       })
-      .attr("stroke-dashoffset", function(d) {
+      .attr("stroke-dashoffset", function() {
         return d3.select(this).node().getTotalLength();
       })
-      .attr('stroke', '#f4e60e')
+      .attr('stroke', function(d, i) {
+        return colors[routes.features[i].properties.type];
+      })
       .attr('stroke-opacity', .8)
       .attr('stroke-width', 6)
       .transition()
-        .duration(2000)
+        .delay(function(d, i) {
+          return 3000 * Math.random();
+        })
+        .duration(5000)
         .ease("linear")
         .attr("stroke-dashoffset", 0);
 

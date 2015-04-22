@@ -6,6 +6,7 @@
       "properties": {
         "title": "Wibautstraat",
         "name": "wibautstraat",
+        "description": "Bouwproject dit en dat en zus en zo en nieuwe gebouwen",
         "size": 8000,
         "dateStart": "2015-05-01",
         "dateEnd": "2015-10-22"
