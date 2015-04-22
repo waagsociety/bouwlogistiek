@@ -182,6 +182,19 @@
           52.421319061600066
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "concrete"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6.880102157592773,
+          52.43505718728701
+        ]
+      }
     }
   ]
 }

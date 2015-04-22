@@ -46,9 +46,32 @@ module.exports = React.createClass({
     this.map.setView([52.3728, 4.9002], 13);
     this.map.zoomControl.setPosition('topright');
 
+    this.map.on('zoomend', function() {
+      this.zoomend();
+    }.bind(this));
+
     d3.json('data/projects.json', function(geojson) {
       this.projectsLayer.addData(geojson);
     }.bind(this));
+  },
+
+  zoomend: function() {
+    var path = d3.selectAll('#map .route');
+
+
+    setInterval(function () {
+      path
+        .attr('stroke-dasharray', function() {
+          var totalLength = d3.select(this).node().getTotalLength();
+          console.log(totalLength)
+          return totalLength + " " + totalLength;
+        })
+        .attr('stroke-dashoffset', function() {
+          return 0;//d3.select(this).node().getTotalLength();
+        });
+
+    }, 100);
+
   },
 
   animate: function(routes) {
@@ -57,33 +80,37 @@ module.exports = React.createClass({
 
     var path = d3.selectAll('#map .leaflet-zoom-animated path[stroke="none"]');
 
+    path.classed('route', true);
+
     var colors = {
-      sand: '#8dd3c7',
-      concrete: '#ffffb3',
-      a: '#bebada',
-      b: '#fb8072'
+      sand: '#e6ab02',
+      concrete: '#e7298a',
+      a: '#1b9e77',
+      b: '#d95f02',
+      c: '#7570b3',
+      d: '#66a61e'
     };
 
     path
-      .attr("stroke-dasharray", function() {
+      .attr('stroke-dasharray', function() {
         var totalLength = d3.select(this).node().getTotalLength();
         return totalLength + " " + totalLength;
       })
-      .attr("stroke-dashoffset", function() {
+      .attr('stroke-dashoffset', function() {
         return d3.select(this).node().getTotalLength();
       })
       .attr('stroke', function(d, i) {
         return colors[routes.features[i].properties.type];
       })
-      .attr('stroke-opacity', .8)
+      .attr('stroke-opacity', .4)
       .attr('stroke-width', 6)
       .transition()
         .delay(function(d, i) {
           return 3000 * Math.random();
         })
         .duration(5000)
-        .ease("linear")
-        .attr("stroke-dashoffset", 0);
+        .ease('linear')
+        .attr('stroke-dashoffset', 0);
 
   }
 
