@@ -1,5 +1,6 @@
 var React = require('react');
 var L = require('leaflet');
+var d3 = require('d3');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -34,10 +35,10 @@ module.exports = React.createClass({
       }.bind(this)
     }).addTo(this.map);
 
-    // var routesLayer = L.geoJson(null, {
-    //   stroke: false,
-    //   noClip: true
-    // }).addTo(map);
+    this.routesLayer = L.geoJson(null, {
+      stroke: false,
+      noClip: true
+    }).addTo(this.map);
 
     this.map.setView([52.3728, 4.9002], 13);
     this.map.zoomControl.setPosition('topright');
@@ -48,28 +49,26 @@ module.exports = React.createClass({
   },
 
   animate: function(routes) {
-    console.log(routes);
+    this.routesLayer.clearLayers();
+    this.routesLayer.addData(routes);
 
-    // setTimeout(function() {
-    //   var vivus = new Vivus(geojsonSvg.id, {type: 'oneByOne', duration: 200, start: 'autostart'});
-    // }, 3000);
-    // routesLayer.setStyle({
-    //   stroke: true
-    // })
-    //
-    // var geojsonSvgId = "geojson-svg",
-    //     geojsonSvg = document.querySelector("#map svg.leaflet-zoom-animated");
-    // geojsonSvg.id = geojsonSvgId;
-    //
-    // setTimeout(function(){
-    //   var vivus = new Vivus(geojsonSvg.id, {type: 'oneByOne', duration: 200, start: 'autostart'});
-    // }, 3000);
-    //
-    // vivus
-    //   .stop()
-    //   .reset()
-    //   .play(2)
+    var path = d3.selectAll('#map .leaflet-zoom-animated path[stroke="none"]');
 
+    path
+      .attr("stroke-dasharray", function(d) {
+        var totalLength = d3.select(this).node().getTotalLength();
+        return totalLength + " " + totalLength;
+      })
+      .attr("stroke-dashoffset", function(d) {
+        return d3.select(this).node().getTotalLength();
+      })
+      .attr('stroke', '#f4e60e')
+      .attr('stroke-opacity', .8)
+      .attr('stroke-width', 6)
+      .transition()
+        .duration(2000)
+        .ease("linear")
+        .attr("stroke-dashoffset", 0);
 
   }
 

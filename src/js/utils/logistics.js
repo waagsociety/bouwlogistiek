@@ -1,7 +1,7 @@
 exports.calculate = function(size, days) {
   return {
-    sand: 20,
-    concrete: 10
+    sand: Math.round(size * days / 32330),
+    concrete: Math.round(size * days / 42000)
   };
 };
 

@@ -1184,6 +1184,9 @@ there.
 #project img {
   width: 100%; }
 
+#project p:last-child {
+  margin-bottom: 0; }
+
 /* Variables
    ========================================================================== */
 /* Style
@@ -1207,7 +1210,7 @@ h1, h2, h3 {
 .sidebar-container {
   position: absolute;
   left: 0;
-  width: 450px;
+  width: 350px;
   z-index: 1;
   height: 100%;
   pointer-events: none; }

@@ -4,8 +4,10 @@ var async = require('async');
 
 var Map = require('./map');
 var Project = require('./project');
+
 var logistics = require('../utils/logistics');
 var routing = require('../utils/routing');
+var calendar = require('../utils/calendar');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -42,7 +44,11 @@ module.exports = React.createClass({
   },
 
   startAnimation: function() {
-    var calculation = logistics.calculate(this.state.project.feature.properties.size);
+    var dateStart = this.state.project.feature.properties.dateStart;
+    var dateEnd = this.state.project.feature.properties.dateEnd;
+    var diffDays = calendar.diffDays(dateStart, dateEnd);
+
+    var calculation = logistics.calculate(this.state.project.feature.properties.size, diffDays);
     var suppliers = logistics.getSuppliers(calculation, this.state.suppliers);
 
     async.map(suppliers.features, function(supplier, callback) {

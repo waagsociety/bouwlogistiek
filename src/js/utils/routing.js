@@ -11,16 +11,20 @@ function getOriginDestinationHash(origin, destination) {
   }).join(',');
 }
 
+function getRandomRoute(json) {
+  var route = json.routes[Math.floor(Math.random() * json.routes.length)];
+  return route.geometry;
+}
+
 exports.route = function(origin, destination, callback) {
   var hash = getOriginDestinationHash(origin, destination);
   if (computedRoutes[hash]) {
-    callback(computedRoutes[hash]);
+    callback(getRandomRoute(computedRoutes[hash]));
   } else {
     d3.json(urlPrefix + origin.join(',') + ';' + destination.join(',') + urlSuffix, function(json) {
       if (json.routes.length > 0) {
-        var geometry = json.routes[0].geometry;
-        computedRoutes[hash] = geometry;
-        callback(geometry);
+        computedRoutes[hash] = json;
+        callback(getRandomRoute(computedRoutes[hash]));
       } else {
         callback(null);
       }
